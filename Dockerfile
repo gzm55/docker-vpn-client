@@ -1,7 +1,7 @@
 FROM jeanblanchard/alpine-glibc
 MAINTAINER James Z.M. Gao <gaozm55@gmail.com>
 
-# install pptpclient from test repository
+# install pptpclient from the test repository
 # fix ip command location
 RUN echo '@testing http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
     apk --update upgrade && \
