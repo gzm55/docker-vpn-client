@@ -3,6 +3,7 @@
 A pptp client in docker based on alpine. It starts a persist pptp tunnel and adds routing rules.
 Run it like this:
 
+```Bash
 VPN_SERVER=<server-domain-or-ip>
 VPN_USER=<user>
 VPN_PASSWORD=<password>
@@ -23,3 +24,4 @@ docker run --net=host \
            -e VPN_DEBUG="$VPN_DEBUG" \
            -d \
            gzm55/pptp-client
+```
