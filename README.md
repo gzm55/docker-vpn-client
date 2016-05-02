@@ -25,3 +25,12 @@ docker run --net=host \
            -d \
            gzm55/pptp-client
 ```
+
+Accepted docker environment variables:
+
+* VPN_SERVER: server domain or ip
+* VPN_USER: user
+* VPN_PASSWORD: password
+* VPN_ROUTING_IPS: space seperated string, each like '172.0.0.0/8', 'www.google.com' or 1.2.3.4
+* VPN_PPP_OPTIONS: space seperated string, passed to `pppd'
+* VPN_DEBUG: no empty string will enable debug option for pppd
