@@ -7,9 +7,10 @@ Sub command usage:
 pptp [-h|--help|help] -- print this help message
 pptp <server-host-or-ip> <user> [pppd options...]
 
-password is passed via stdin, or volumed through a read only /etc/ppp/chap-secrets.
+password is passed via docker env VPN_PASSWORD, or volumed through a read only /etc/ppp/chap-secrets.
 
 accepted envrionments:
+- VPN_PASSWORD
 - VPN_ROUTING_IPS="172.0.0.0/8 www.google.com"
 - VPN_DEBUG=y
 END
@@ -23,10 +24,7 @@ shift
 shift
 
 if [ -w /etc/ppp/chap-secrets ]; then
-  { read pwd
-    echo -n "$VPN_USER PPTP $pwd  *"
-    unset pwd
-  } > /etc/ppp/chap-secrets
+  echo -n "$VPN_USER PPTP $VPN_PASSWORD  *" >> /etc/ppp/chap-secrets
   chmod 0600 /etc/ppp/chap-secrets
 fi
 

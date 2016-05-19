@@ -1,0 +1,7 @@
+#!/bin/sh -el
+
+if [ -z "$VPN_PASSWORD" ]; then
+  exec openconnect "$@"
+else
+  echo -n "$VPN_PASSWORD" | exec openconnect --passwd-on-stdin "$@"
+fi

@@ -8,7 +8,6 @@ RUN set -ex \
     && apk --update upgrade \
     && apk add pptpclient@testing openconnect@testing \
     && ln -s "$(which ip)" /usr/sbin/ip \
-    && ln -s "$(which openconnect)" /entrypoint-openconnect \
     && rm -rf /var/cache/apk/* /tmp/*
 
 COPY content /

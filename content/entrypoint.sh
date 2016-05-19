@@ -9,7 +9,7 @@ if [ -z "$*" -o "$1" = "-h" -o "$1" = "--help" ]; then
   exit 0
 fi
 
-ENTRYPOINT="$(dirname $0)/entrypoint-$1"
+ENTRYPOINT="/entrypoint-$1"
 [ -x "$ENTRYPOINT" ] || ENTRYPOINT="$1"
 
 shift
