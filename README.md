@@ -7,7 +7,7 @@ Run it like this:
 
 ```Bash
 # print help message
-docker run -it --rm gzm55/vpn-client --help
+docker run --rm gzm55/vpn-client --help
 
 # start a pptp tunnel
 VPN_ROUTING_IPS="172.0.0.0/8 www.google.com"
@@ -15,7 +15,7 @@ VPN_PASSOWRD=xxx
 #VPN_DEBUG=y
 
 echo password |
-docker run -i
+docker run --interactive \
            --net=host \
            --privileged=true \
            --device=/dev/ppp \
