@@ -3,5 +3,7 @@
 if [ -z "$VPN_PASSWORD" ]; then
   exec openconnect "$@"
 else
-  echo -n "$VPN_PASSWORD" | exec openconnect --passwd-on-stdin "$@"
+  exec openconnect --passwd-on-stdin "$@" <<END
+$VPN_PASSWORD
+END
 fi
