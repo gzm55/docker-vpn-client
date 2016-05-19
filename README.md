@@ -14,9 +14,7 @@ VPN_ROUTING_IPS="172.0.0.0/8 www.google.com"
 VPN_PASSOWRD=xxx
 #VPN_DEBUG=y
 
-echo password |
-docker run --interactive \
-           --net=host \
+docker run --net=host \
            --privileged=true \
            --device=/dev/ppp \
            --cap-add=NET_ADMIN \
@@ -24,8 +22,8 @@ docker run --interactive \
            -e VPN_PASSWORD="$VPN_PASSWORD" \
            -e VPN_ROUTING_IPS="$VPN_ROUTING_IPS" \
            -e VPN_DEBUG="$VPN_DEBUG" \
-           -d \
-           gzm55/vpn-client <server-domain-or-ip> <suer> [<pppd-options>]
+           --detach \
+           gzm55/vpn-client <server-domain-or-ip> <user> [<pppd-options>]
 
 #view openconnect help
 docker run -it --rm gzm55/vpn-client openconect --help
