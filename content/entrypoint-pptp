@@ -1,0 +1,66 @@
+#!/bin/sh -el
+
+if [ -z "$*" -o "$1" = "-h" -o "$1" = "--help" -o "$1" = "help" ]; then
+  cat <<END
+Sub command usage:
+
+pptp [-h|--help|help] -- print this help message
+pptp <server-host-or-ip> <user> [pppd options...]
+
+password is passed via stdin, or volumed through a read only /etc/ppp/chap-secrets.
+
+accepted envrionments:
+- VPN_ROUTING_IPS="172.0.0.0/8 www.google.com"
+- VPN_DEBUG=y
+END
+  exit 0
+fi
+
+export VPN_SERVER="$1"
+export VPN_USER="$2"
+
+shift
+shift
+
+if [ -w /etc/ppp/chap-secrets ]; then
+  { read pwd
+    echo -n "$VPN_USER PPTP $pwd  *"
+    unset pwd
+  } > /etc/ppp/chap-secrets
+  chmod 0600 /etc/ppp/chap-secrets
+fi
+
+while read line; do
+  eval echo "$line"
+done < /etc/ppp/peers/pptp-provider.template > /etc/ppp/peers/pptp-provider
+
+VPN_ROUTING_IPS_VALIDATE=
+for i in $VPN_ROUTING_IPS; do
+  case $i in
+  (default) VPN_ROUTING_IPS_VALIDATE=default
+            break
+            ;;
+  (localhost) ;;
+  (*/*) VPN_ROUTING_IPS_VALIDATE="$VPN_ROUTING_IPS_VALIDATE $i" ;;
+  (*) for a in $(nslookup $i 2>/dev/null | awk '/^Address / && $3 !~ /:/ { print $3 }'); do
+        VPN_ROUTING_IPS_VALIDATE="$VPN_ROUTING_IPS_VALIDATE $a"
+      done
+      ;;
+  esac
+done
+VPN_ROUTING_IPS=${VPN_ROUTING_IPS_VALIDATE# }
+
+while read line; do
+  if [ "${line:0:1}" = '#' ]; then
+    echo "$line"
+  else
+    eval echo "${line//;/\;}"
+  fi
+done < /etc/ppp/ip-up.template > /etc/ppp/ip-up
+chmod +x /etc/ppp/ip-up
+
+if [ -n "$VPN_DEBUG" ]; then
+  DEBUG_OPTIONS="debug dump logfd 2"
+fi
+
+exec pon pptp-provider $DEBUG_OPTIONS "$@"
