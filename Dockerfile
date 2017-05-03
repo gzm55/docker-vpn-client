@@ -38,7 +38,7 @@ RUN set -ex \
 # 3. fix ip command location for the pptp client
     && ln -s "$(which ip)" /usr/sbin/ip \
 # 4. cleanup
-    && apk del .build-deps \
+    && apk del .openconnect-build-deps \
     && rm -rf /var/cache/apk/* /tmp/*
 
 COPY content /
