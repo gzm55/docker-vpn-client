@@ -11,13 +11,14 @@ RUN set -ex \
 # 2. build and install openconnect (ref: https://github.com/04n0/docker-openconnect-client)
 ## 2.1 install runtime and build dependencies
     && apk add --no-progress --virtual .openconnect-run-deps \
-               gnutls gnutls-utils iptables libev libintl procps \
-               libnl3 libseccomp linux-pam lz4 openssl readline sed \
+               gnutls gnutls-utils iptables libev libintl \
+               libnl3 libseccomp linux-pam lz4 openssl \
                libxml2 nmap-ncat socat openssh-client \
     && apk add --no-progress --virtual .openconnect-build-deps \
                curl file g++ gnutls-dev gpgme gzip libev-dev \
                libnl3-dev libseccomp-dev libxml2-dev linux-headers \
                linux-pam-dev lz4-dev make readline-dev tar \
+               sed readline procps \
 ## 2.2 download vpnc-script
     && mkdir -p /etc/vpnc \
     && curl http://git.infradead.org/users/dwmw2/vpnc-scripts.git/blob_plain/HEAD:/vpnc-script -o /etc/vpnc/vpnc-script \
@@ -39,7 +40,7 @@ RUN set -ex \
     && ln -s "$(which ip)" /usr/sbin/ip \
 # 4. cleanup
     && apk del .openconnect-build-deps \
-    && rm -rf /var/cache/apk/* /tmp/*
+    && rm -rf /var/cache/apk/* /tmp/* ~/.gnupg
 
 COPY content /
 
