@@ -12,7 +12,7 @@ RUN set -ex \
 ## 2.1 install runtime and build dependencies
     && apk add --no-progress --virtual .openconnect-run-deps \
                gnutls gnutls-utils iptables libev libintl \
-               libnl3 libseccomp linux-pam lz4 openssl \
+               libnl3 libseccomp linux-pam lz4-libs openssl \
                libxml2 nmap-ncat socat openssh-client \
     && apk add --no-progress --virtual .openconnect-build-deps \
                curl file g++ gnutls-dev gpgme gzip libev-dev \
