@@ -36,7 +36,7 @@ docker run -it --rm gzm55/vpn-client openconect --help
 VPN_OPENCONNECT_COOKIE=yyy
 docker run --net=host \
            --privileged=true \
-           --device=/dev/ppp \
+           --device=/dev/net/tun \
            --cap-add=NET_ADMIN \
            --name openconnect-tunnel-$VPN_SERVER \
            -e VPN_DEBUG="$VPN_DEBUG" \
