@@ -1,9 +1,23 @@
 #!/bin/sh -el
 
-if [ -z "$VPN_PASSWORD" ]; then
-  exec openconnect "$@"
-else
-  exec openconnect --passwd-on-stdin "$@" <<END
+__DEBUG_OPTIONS=
+if [ -n "$VPN_DEBUG" ]; then
+  __DEBUG_OPTIONS="-vvv"
+fi
+
+if [ -z "$VPN_PASSWORD" -a -z "$VPN_OPENCONNECT_COOKIE" ]; then
+  exec openconnect $__DEBUG_OPTIONS "$@"
+elif [ -n "$VPN_PASSWORD" -a -z "$VPN_OPENCONNECT_COOKIE" ]; then
+  exec openconnect --passwd-on-stdin $__DEBUG_OPTIONS "$@" <<END
 $VPN_PASSWORD
+END
+elif [ -z "$VPN_PASSWORD" -a -n "$VPN_OPENCONNECT_COOKIE" ]; then
+  exec openconnect --cookie-on-stdin $__DEBUG_OPTIONS "$@" <<END
+$VPN_OPENCONNECT_COOKIE
+END
+else
+  exec openconnect --passwd-on-stdin --cookie-on-stdin $__DEBUG_OPTIONS "$@" <<END
+$VPN_PASSWORD
+$VPN_OPENCONNECT_COOKIE
 END
 fi
