@@ -24,7 +24,7 @@ RUN set -ex \
     && curl http://git.infradead.org/users/dwmw2/vpnc-scripts.git/blob_plain/HEAD:/vpnc-script -o /etc/vpnc/vpnc-script \
     && chmod 750 /etc/vpnc/vpnc-script \
 ## 2.3 create build dir, download, verify and decompress OC package to build dir
-    && gpg --keyserver pgp.mit.edu --recv-key 0x63762cda67e2f359 \
+    && gpg --recv-key 0x63762cda67e2f359 \
     && mkdir -p /tmp/build/openconnect \
     && curl -SL "ftp://ftp.infradead.org/pub/openconnect/openconnect-$OC_VERSION.tar.gz" -o /tmp/openconnect.tar.gz \
     && curl -SL "ftp://ftp.infradead.org/pub/openconnect/openconnect-$OC_VERSION.tar.gz.asc" -o /tmp/openconnect.tar.gz.asc \
