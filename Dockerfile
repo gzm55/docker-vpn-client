@@ -1,7 +1,7 @@
 FROM alpine:latest
 LABEL maintainer="James Z.M. Gao <gaozm55@gmail.com>"
 
-ENV OC_VERSION=8.02
+ENV OC_VERSION=8.03
 
 RUN set -ex \
 # 1. install pptpclient
@@ -36,6 +36,8 @@ RUN set -ex \
     && make \
     && make install \
     && cd / \
+## 2.5 install dependency packages for openconnect csd wrapper
+    && apk add --no-progress bash curl xmlstarlet \
 # 3. fix ip command location for the pptp client
     && ln -s "$(which ip)" /usr/sbin/ip \
 # 4. cleanup
