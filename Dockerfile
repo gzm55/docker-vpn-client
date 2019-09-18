@@ -21,7 +21,7 @@ RUN set -ex \
                sed readline procps \
 ## 2.2 download vpnc-script
     && mkdir -p /etc/vpnc \
-    && curl http://git.infradead.org/users/dwmw2/vpnc-scripts.git/blob_plain/HEAD:/vpnc-script -o /etc/vpnc/vpnc-script \
+    && curl https://gitlab.com/openconnect/vpnc-scripts/raw/master/vpnc-script -o /etc/vpnc/vpnc-script \
     && chmod 750 /etc/vpnc/vpnc-script \
 ## 2.3 create build dir, download, verify and decompress OC package to build dir
     && gpg --recv-key 0x63762cda67e2f359 \
