@@ -1,7 +1,7 @@
 FROM alpine:latest
 LABEL maintainer="James Z.M. Gao <gaozm55@gmail.com>"
 
-ENV OC_VERSION=8.03
+ENV OC_VERSION=8.05
 
 RUN set -ex \
 # 1. install pptpclient
